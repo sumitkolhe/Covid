@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19 India Daily Statistics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js'></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/js-convert-case/dist/js-convert-case.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>Daily Status of Covid-19 (India)</h1>
+        <h2>Last updated on {{timestamp}}</h2>
+
+        <div class="card_wrapper">
+            <div class="card" v-for="(heading,value) in newdata" v-bind:key="heading.id">
+                <div class="title">
+                    <h2>{{heading}}</h2>
+                </div>
+                <div class="values">{{value}}</div>
+            </div>
+
+        </div>
+        <footer>
+            <h3>Made using Vue.js by <a href="http://github.com/sumitkolhe">Sumit Kolhe</a></h3>
+        </footer>
+    </div>
+
+
+
+
+    <script src="app.js"></script>
+</body>
+
+</html>
