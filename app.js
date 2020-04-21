@@ -1,4 +1,4 @@
-const endpoint = "https://api.covid19india.org/data.json";
+const endpoint = "https://api.rootnet.in/covid19-in/stats/latest";
 
 new Vue({
   el: "#app",
@@ -6,30 +6,31 @@ new Vue({
   data() {
     return {
       helo: "hello",
-      results: [],
+      results1: [],
       today: new Date().toLocaleDateString(),
-      newdata: [],
+      summarydata: [],
+      regionaldata:[],
       timestamp: "",
+      date: "",
     };
   },
 
   created() {
     axios.get(endpoint).then((response) => {
-      this.results =
-        response.data.cases_time_series[
-          response.data.cases_time_series.length - 1
-        ];
-      this.timestamp =
-        response.data.tested[response.data.tested.length - 1].updatetimestamp;
-
-      this.deleteele();
-      this.newdata = this.changecase(this.results);
+      this.results1 = response.data.data.summary; 
+      this.results2 = response.data.data.regional; 
+      this.timestamp = response.data.lastRefreshed;
+      this.date = (new Date(this.timestamp).toLocaleDateString())+" "+(new Date(this.timestamp).toISOString().split("T")[1].split(".")[0]);
+      this.deleteelement();
+      this.summarydata = this.changecase(this.results1);
+      this.regionaldata = this.changecase(this.results2);
     });
   },
 
   methods: {
-    deleteele() {
-      delete this.results["date"];
+    deleteelement() {
+      delete this.results1["confirmedButLocationUnidentified"];
+      delete this.results1["confirmedCasesForeign"];
     },
 
     changecase(json) {
@@ -39,9 +40,7 @@ new Vue({
         var key = keys[j];
         var value = json[key];
         delete json[key];
-        key = jsConvert.toSentenceCase(
-          key.substring(0, 5) + " " + key.substring(5)
-        );
+        key = jsConvert.toSentenceCase(key.substring(0));
         json[key] = value;
       }
       return json;
