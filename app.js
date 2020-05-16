@@ -17,20 +17,21 @@ new Vue({
 
   created() {
     axios.get(endpoint).then((response) => {
-      this.results1 = response.data.data.summary; 
+      this.results1 = response.data.data['unofficial-summary'][0]; 
       this.results2 = response.data.data.regional; 
       this.timestamp = response.data.lastRefreshed;
       this.date = (new Date(this.timestamp).toLocaleDateString())+" "+(new Date(this.timestamp).toISOString().split("T")[1].split(".")[0]);
       this.deleteelement();
       this.summarydata = this.changecase(this.results1);
+      console.log(this.results1);
       this.regionaldata = this.changecase(this.results2);
     });
   },
 
   methods: {
     deleteelement() {
-      delete this.results1["confirmedButLocationUnidentified"];
-      delete this.results1["confirmedCasesForeign"];
+      delete this.results1.source;
+
     },
 
     changecase(json) {
